@@ -100,7 +100,7 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
         },
       })
 
-      cache.put(uri, jsonResponse2)
+      cache.put(uri, JSON.stringify(jsonResponse2))
 
 
 
