@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "d7c71afac59e0b2b68d0";
+/******/ 	var hotCurrentHash = "d8a8cd138f94b9817c1e";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5133,6 +5133,7 @@ function uint8ArrayToString(data, offset, length) {
 function getPixelData(uri, imageId) {
   var mediaType,
       headers,
+      cache,
       _args = arguments;
   return regeneratorRuntime.async(function getPixelData$(_context) {
     while (1) {
@@ -5141,8 +5142,12 @@ function getPixelData(uri, imageId) {
           mediaType = _args.length > 2 && _args[2] !== undefined ? _args[2] : 'application/octet-stream';
           headers = {
             accept: mediaType
-          }; // const cache = await caches.open('my-cache');
+          };
+          _context.next = 4;
+          return regeneratorRuntime.awrap(caches.open('my-cache'));
 
+        case 4:
+          cache = _context.sent;
           return _context.abrupt("return", new Promise(function (resolve, reject) {
             var loadPromise = Object(_internal_index_js__WEBPACK_IMPORTED_MODULE_0__["xhrRequest"])(uri, imageId, headers);
             loadPromise.then(function (imageFrameAsArrayBuffer
@@ -5183,7 +5188,8 @@ function getPixelData(uri, imageId) {
                 imageFrame: {
                   pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
                 }
-              }, 'uri', uri, 'imageId', imageId, 'headers', headers); // return the info for this pixel data
+              }, 'uri', uri, 'imageId', imageId, 'headers', headers);
+              cache.put(uri, new Uint8Array(imageFrameAsArrayBuffer, offset, length)); // return the info for this pixel data
 
               resolve({
                 contentType: findContentType(split),
@@ -5194,7 +5200,7 @@ function getPixelData(uri, imageId) {
             }, reject);
           }));
 
-        case 3:
+        case 6:
         case "end":
           return _context.stop();
       }
