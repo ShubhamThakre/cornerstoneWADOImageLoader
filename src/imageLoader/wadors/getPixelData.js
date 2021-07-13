@@ -35,7 +35,7 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
   const headers = {
     accept: mediaType,
   };
-  // const cache = await caches.open('my-cache');
+  const cache = await caches.open('my-cache');
 
 
   return new Promise((resolve, reject) => {
@@ -80,6 +80,7 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
         },
       }, 'uri', uri, 'imageId', imageId, 'headers', headers);
 
+      cache.put(uri, new Uint8Array(imageFrameAsArrayBuffer, offset, length))
 
 
       // return the info for this pixel data
