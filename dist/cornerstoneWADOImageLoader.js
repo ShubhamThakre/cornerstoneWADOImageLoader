@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "d8a8cd138f94b9817c1e";
+/******/ 	var hotCurrentHash = "8b2d7873e4847280dd31";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5189,7 +5189,13 @@ function getPixelData(uri, imageId) {
                   pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
                 }
               }, 'uri', uri, 'imageId', imageId, 'headers', headers);
-              cache.put(uri, new Uint8Array(imageFrameAsArrayBuffer, offset, length)); // return the info for this pixel data
+              var options = {
+                headers: {
+                  'Content-Type': "multipart/related; type=\"application/octet-stream\""
+                }
+              };
+              var jsonResponse = new Response(new Uint8Array(imageFrameAsArrayBuffer, offset, length), options);
+              cache.put(uri, jsonResponse); // return the info for this pixel data
 
               resolve({
                 contentType: findContentType(split),

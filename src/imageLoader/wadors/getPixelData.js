@@ -80,7 +80,14 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
         },
       }, 'uri', uri, 'imageId', imageId, 'headers', headers);
 
-      cache.put(uri, new Uint8Array(imageFrameAsArrayBuffer, offset, length))
+      const options = {
+        headers: {
+          'Content-Type': "multipart/related; type=\"application/octet-stream\""
+        }
+      }
+      const jsonResponse = new Response(new Uint8Array(imageFrameAsArrayBuffer, offset, length), options);
+
+      cache.put(uri, jsonResponse)
 
 
       // return the info for this pixel data
