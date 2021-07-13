@@ -1,6 +1,8 @@
 import { xhrRequest } from '../internal/index.js';
 import findIndexOfString from './findIndexOfString.js';
 
+
+
 function findBoundary(header) {
   for (let i = 0; i < header.length; i++) {
     if (header[i].substr(0, 2) === '--') {
@@ -29,10 +31,12 @@ function uint8ArrayToString(data, offset, length) {
   return str;
 }
 
-function getPixelData(uri, imageId, mediaType = 'application/octet-stream') {
+async function getPixelData(uri, imageId, mediaType = 'application/octet-stream') {
   const headers = {
     accept: mediaType,
   };
+  // const cache = await caches.open('my-cache');
+
 
   return new Promise((resolve, reject) => {
     const loadPromise = xhrRequest(uri, imageId, headers);
@@ -74,9 +78,8 @@ function getPixelData(uri, imageId, mediaType = 'application/octet-stream') {
         imageFrame: {
           pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length),
         },
-      });
-      console.log({ contentType: findContentType(split), pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length) })
-      console.log('bhavika')
+      }, 'uri', uri, 'imageId', imageId, 'headers', headers);
+
 
 
       // return the info for this pixel data
