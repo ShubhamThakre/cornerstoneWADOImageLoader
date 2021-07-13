@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "fee0cb5f03c5d790ef8d";
+/******/ 	var hotCurrentHash = "8aad17813ede884a2fc3";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5143,9 +5143,7 @@ function getPixelData(uri, imageId) {
       // request succeeded, Parse the multi-part mime response
       var response = new Uint8Array(imageFrameAsArrayBuffer); // First look for the multipart mime header
 
-      var tokenIndex = Object(_findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response, '\r\n\r\n'); //addding comment
-
-      console.log('shubham');
+      var tokenIndex = Object(_findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response, '\r\n\r\n');
 
       if (tokenIndex === -1) {
         reject(new Error('invalid response - no multipart mime header'));
@@ -5170,7 +5168,19 @@ function getPixelData(uri, imageId) {
       } // Remove \r\n from the length
 
 
-      var length = endIndex - offset - 2; // return the info for this pixel data
+      var length = endIndex - offset - 2; //addding comment
+
+      console.log('shubham', {
+        contentType: findContentType(split),
+        imageFrame: {
+          pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
+        }
+      });
+      console.log({
+        contentType: findContentType(split),
+        pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
+      });
+      console.log('bhavika'); // return the info for this pixel data
 
       resolve({
         contentType: findContentType(split),

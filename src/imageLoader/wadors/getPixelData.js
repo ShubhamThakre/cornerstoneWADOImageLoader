@@ -44,8 +44,6 @@ function getPixelData(uri, imageId, mediaType = 'application/octet-stream') {
       // First look for the multipart mime header
       const tokenIndex = findIndexOfString(response, '\r\n\r\n');
 
-      //addding comment
-      console.log('shubham');
 
       if (tokenIndex === -1) {
         reject(new Error('invalid response - no multipart mime header'));
@@ -69,6 +67,17 @@ function getPixelData(uri, imageId, mediaType = 'application/octet-stream') {
 
       // Remove \r\n from the length
       const length = endIndex - offset - 2;
+
+      //addding comment
+      console.log('shubham', {
+        contentType: findContentType(split),
+        imageFrame: {
+          pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length),
+        },
+      });
+      console.log({ contentType: findContentType(split), pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length) })
+      console.log('bhavika')
+
 
       // return the info for this pixel data
       resolve({
