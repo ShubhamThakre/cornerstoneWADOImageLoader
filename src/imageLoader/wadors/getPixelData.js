@@ -93,7 +93,15 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
         },
       }, options);
 
-      cache.put(uri, { content: 'spiker', name: 'Bhaivka', note: 'thik hojayeiye jaldi' })
+      const jsonResponse2 = new Response({
+        contentType: findContentType(split),
+        imageFrame: {
+          pixelData: [{ content: 'spiker', name: 'Bhaivka', note: 'thik hojayeiye jaldi' }],
+        },
+      })
+
+      cache.put(uri, jsonResponse2)
+
 
 
       // return the info for this pixel data
