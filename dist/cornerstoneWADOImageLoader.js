@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "8aad17813ede884a2fc3";
+/******/ 	var hotCurrentHash = "d7c71afac59e0b2b68d0";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5131,64 +5131,74 @@ function uint8ArrayToString(data, offset, length) {
 }
 
 function getPixelData(uri, imageId) {
-  var mediaType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'application/octet-stream';
-  var headers = {
-    accept: mediaType
-  };
-  return new Promise(function (resolve, reject) {
-    var loadPromise = Object(_internal_index_js__WEBPACK_IMPORTED_MODULE_0__["xhrRequest"])(uri, imageId, headers);
-    loadPromise.then(function (imageFrameAsArrayBuffer
-    /* , xhr*/
-    ) {
-      // request succeeded, Parse the multi-part mime response
-      var response = new Uint8Array(imageFrameAsArrayBuffer); // First look for the multipart mime header
+  var mediaType,
+      headers,
+      _args = arguments;
+  return regeneratorRuntime.async(function getPixelData$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          mediaType = _args.length > 2 && _args[2] !== undefined ? _args[2] : 'application/octet-stream';
+          headers = {
+            accept: mediaType
+          }; // const cache = await caches.open('my-cache');
 
-      var tokenIndex = Object(_findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response, '\r\n\r\n');
+          return _context.abrupt("return", new Promise(function (resolve, reject) {
+            var loadPromise = Object(_internal_index_js__WEBPACK_IMPORTED_MODULE_0__["xhrRequest"])(uri, imageId, headers);
+            loadPromise.then(function (imageFrameAsArrayBuffer
+            /* , xhr*/
+            ) {
+              // request succeeded, Parse the multi-part mime response
+              var response = new Uint8Array(imageFrameAsArrayBuffer); // First look for the multipart mime header
 
-      if (tokenIndex === -1) {
-        reject(new Error('invalid response - no multipart mime header'));
+              var tokenIndex = Object(_findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response, '\r\n\r\n');
+
+              if (tokenIndex === -1) {
+                reject(new Error('invalid response - no multipart mime header'));
+              }
+
+              var header = uint8ArrayToString(response, 0, tokenIndex); // Now find the boundary  marker
+
+              var split = header.split('\r\n');
+              var boundary = findBoundary(split);
+
+              if (!boundary) {
+                reject(new Error('invalid response - no boundary marker'));
+              }
+
+              var offset = tokenIndex + 4; // skip over the \r\n\r\n
+              // find the terminal boundary marker
+
+              var endIndex = Object(_findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response, boundary, offset);
+
+              if (endIndex === -1) {
+                reject(new Error('invalid response - terminating boundary not found'));
+              } // Remove \r\n from the length
+
+
+              var length = endIndex - offset - 2; //addding comment
+
+              console.log('shubham', {
+                contentType: findContentType(split),
+                imageFrame: {
+                  pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
+                }
+              }, 'uri', uri, 'imageId', imageId, 'headers', headers); // return the info for this pixel data
+
+              resolve({
+                contentType: findContentType(split),
+                imageFrame: {
+                  pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
+                }
+              });
+            }, reject);
+          }));
+
+        case 3:
+        case "end":
+          return _context.stop();
       }
-
-      var header = uint8ArrayToString(response, 0, tokenIndex); // Now find the boundary  marker
-
-      var split = header.split('\r\n');
-      var boundary = findBoundary(split);
-
-      if (!boundary) {
-        reject(new Error('invalid response - no boundary marker'));
-      }
-
-      var offset = tokenIndex + 4; // skip over the \r\n\r\n
-      // find the terminal boundary marker
-
-      var endIndex = Object(_findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response, boundary, offset);
-
-      if (endIndex === -1) {
-        reject(new Error('invalid response - terminating boundary not found'));
-      } // Remove \r\n from the length
-
-
-      var length = endIndex - offset - 2; //addding comment
-
-      console.log('shubham', {
-        contentType: findContentType(split),
-        imageFrame: {
-          pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
-        }
-      });
-      console.log({
-        contentType: findContentType(split),
-        pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
-      });
-      console.log('bhavika'); // return the info for this pixel data
-
-      resolve({
-        contentType: findContentType(split),
-        imageFrame: {
-          pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
-        }
-      });
-    }, reject);
+    }
   });
 }
 
