@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "a09f691239d2243afc35";
+/******/ 	var hotCurrentHash = "d2ebbc9dc4bf14b4d010";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5201,17 +5201,8 @@ function getPixelData(uri, imageId) {
                   pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
                 }
               }, options);
-              var jsonResponse2 = new Response({
-                contentType: findContentType(split),
-                imageFrame: {
-                  pixelData: [{
-                    content: 'spiker',
-                    name: 'Bhaivka',
-                    note: 'thik hojayeiye jaldi'
-                  }]
-                }
-              });
-              cache.put(uri, JSON.stringify(jsonResponse2)); // return the info for this pixel data
+              var jsonResponse2 = new Response('{foo: "bar", some: {sadData :"dummy"} }');
+              cache.put(uri, jsonResponse2); // return the info for this pixel data
 
               resolve({
                 contentType: findContentType(split),
