@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "ea2c663f0a42a4837a3e";
+/******/ 	var hotCurrentHash = "817d9452b317649e0010";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5099,6 +5099,8 @@ function findIndexOfString(data, str, offset) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _internal_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../internal/index.js */ "./imageLoader/internal/index.js");
 /* harmony import */ var _findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./findIndexOfString.js */ "./imageLoader/wadors/findIndexOfString.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
@@ -5151,7 +5153,7 @@ function getPixelData(uri, imageId) {
           cache = _context.sent;
 
           if (!uri) {
-            _context.next = 13;
+            _context.next = 10;
             break;
           }
 
@@ -5161,16 +5163,64 @@ function getPixelData(uri, imageId) {
         case 8:
           response = _context.sent;
           console.log(request, response);
+
+        case 10:
           return _context.abrupt("return", new Promise(function (resolve, reject) {
-            resolve('Success');
+            var loadPromise = Object(_internal_index_js__WEBPACK_IMPORTED_MODULE_0__["xhrRequest"])(uri, imageId, headers);
+            loadPromise.then(function (imageFrameAsArrayBuffer
+            /* , xhr*/
+            ) {
+              // request succeeded, Parse the multi-part mime response
+              var response = new Uint8Array(imageFrameAsArrayBuffer); // First look for the multipart mime header
+
+              var tokenIndex = Object(_findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response, '\r\n\r\n');
+
+              if (tokenIndex === -1) {
+                reject(new Error('invalid response - no multipart mime header'));
+              }
+
+              var header = uint8ArrayToString(response, 0, tokenIndex); // Now find the boundary  marker
+
+              var split = header.split('\r\n');
+              var boundary = findBoundary(split);
+
+              if (!boundary) {
+                reject(new Error('invalid response - no boundary marker'));
+              }
+
+              var offset = tokenIndex + 4; // skip over the \r\n\r\n
+              // find the terminal boundary marker
+
+              var endIndex = Object(_findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__["default"])(response, boundary, offset);
+
+              if (endIndex === -1) {
+                reject(new Error('invalid response - terminating boundary not found'));
+              } // Remove \r\n from the length
+
+
+              var length = endIndex - offset - 2; //addding comment
+
+              console.log('shubham', {
+                contentType: findContentType(split),
+                imageFrame: {
+                  pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
+                }
+              }, 'uri', uri, 'imageId', imageId, 'headers', headers, 'imageFrameAsArrayBuffer', imageFrameAsArrayBuffer, _typeof(imageFrameAsArrayBuffer)); // adding the arrayBUffer data to cache
+              // const buffer = new ArrayBuffer(imageFrameAsArrayBuffer)
+              // const jsonRes = new Response(buffer)
+              // cache.put(uri, jsonRes)
+              // return the info for this pixel data
+
+              resolve({
+                contentType: findContentType(split),
+                imageFrame: {
+                  pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
+                }
+              });
+            }, reject);
           }));
 
-        case 13:
-          return _context.abrupt("return", new Promise(function (resolve, reject) {
-            resolve('not success');
-          }));
-
-        case 14:
+        case 11:
         case "end":
           return _context.stop();
       }
