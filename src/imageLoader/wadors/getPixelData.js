@@ -78,7 +78,7 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
         imageFrame: {
           pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length),
         },
-      }, 'uri', uri, 'imageId', imageId, 'headers', headers);
+      }, 'uri', uri, 'imageId', imageId, 'headers', headers, 'imageFrameAsArrayBuffer', imageFrameAsArrayBuffer, typeof (imageFrameAsArrayBuffer));
 
       // const options = {
       //   headers: {
@@ -95,7 +95,7 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
 
       // const jsonResponse2 = new Response('{foo: "bar", some: {sadData :"dummy"} }')
 
-      cache.put(uri, imageFrameAsArrayBuffer)
+      // cache.put(uri, imageFrameAsArrayBuffer)
 
 
 

@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "a1e427a5cba3b7fa8471";
+/******/ 	var hotCurrentHash = "09009861641140ede627";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5099,6 +5099,8 @@ function findIndexOfString(data, str, offset) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _internal_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../internal/index.js */ "./imageLoader/internal/index.js");
 /* harmony import */ var _findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./findIndexOfString.js */ "./imageLoader/wadors/findIndexOfString.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
@@ -5188,7 +5190,7 @@ function getPixelData(uri, imageId) {
                 imageFrame: {
                   pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
                 }
-              }, 'uri', uri, 'imageId', imageId, 'headers', headers); // const options = {
+              }, 'uri', uri, 'imageId', imageId, 'headers', headers, 'imageFrameAsArrayBuffer', imageFrameAsArrayBuffer, _typeof(imageFrameAsArrayBuffer)); // const options = {
               //   headers: {
               //     'Content-Type': "multipart/related; type=\"application/octet-stream\""
               //   }
@@ -5201,8 +5203,8 @@ function getPixelData(uri, imageId) {
               //   },
               // }, options);
               // const jsonResponse2 = new Response('{foo: "bar", some: {sadData :"dummy"} }')
-
-              cache.put(uri, imageFrameAsArrayBuffer); // return the info for this pixel data
+              // cache.put(uri, imageFrameAsArrayBuffer)
+              // return the info for this pixel data
 
               resolve({
                 contentType: findContentType(split),
