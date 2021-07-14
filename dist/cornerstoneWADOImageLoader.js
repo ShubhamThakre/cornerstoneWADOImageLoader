@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "0f7239109d80a09a0755";
+/******/ 	var hotCurrentHash = "ea2c663f0a42a4837a3e";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5151,7 +5151,7 @@ function getPixelData(uri, imageId) {
           cache = _context.sent;
 
           if (!uri) {
-            _context.next = 12;
+            _context.next = 13;
             break;
           }
 
@@ -5161,10 +5161,16 @@ function getPixelData(uri, imageId) {
         case 8:
           response = _context.sent;
           console.log(request, response);
-          _context.next = 12;
-          break;
+          return _context.abrupt("return", new Promise(function (resolve, reject) {
+            resolve('Success');
+          }));
 
-        case 12:
+        case 13:
+          return _context.abrupt("return", new Promise(function (resolve, reject) {
+            resolve('not success');
+          }));
+
+        case 14:
         case "end":
           return _context.stop();
       }

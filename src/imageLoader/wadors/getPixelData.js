@@ -40,8 +40,13 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
   if (uri) {
     const response = await cache.match(request);
     console.log(request, response);
+    return new Promise((resolve, reject) => {
+      resolve('Success');
+    })
   } else {
-
+    return new Promise((resolve, reject) => {
+      resolve('not success');
+    })
   }
 
   // return new Promise((resolve, reject) => {
