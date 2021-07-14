@@ -80,22 +80,22 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
         },
       }, 'uri', uri, 'imageId', imageId, 'headers', headers);
 
-      const options = {
-        headers: {
-          'Content-Type': "multipart/related; type=\"application/octet-stream\""
-        }
-      }
-      // const jsonResponse = new Response(new Uint8Array(imageFrameAsArrayBuffer, offset, length), options);
-      const jsonResponse = new Response({
-        contentType: findContentType(split),
-        imageFrame: {
-          pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length),
-        },
-      }, options);
+      // const options = {
+      //   headers: {
+      //     'Content-Type': "multipart/related; type=\"application/octet-stream\""
+      //   }
+      // }
+      // // const jsonResponse = new Response(new Uint8Array(imageFrameAsArrayBuffer, offset, length), options);
+      // const jsonResponse = new Response({
+      //   contentType: findContentType(split),
+      //   imageFrame: {
+      //     pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length),
+      //   },
+      // }, options);
 
-      const jsonResponse2 = new Response('{foo: "bar", some: {sadData :"dummy"} }')
+      // const jsonResponse2 = new Response('{foo: "bar", some: {sadData :"dummy"} }')
 
-      cache.put(uri, jsonResponse2)
+      cache.put(uri, imageFrameAsArrayBuffer)
 
 
 
