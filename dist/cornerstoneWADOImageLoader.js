@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "42d143b207fa08c835b4";
+/******/ 	var hotCurrentHash = "0a4fac6b4dbd806050ec";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5136,7 +5136,6 @@ function getPixelData(uri, imageId) {
   var mediaType,
       headers,
       cache,
-      response,
       _args = arguments;
   return regeneratorRuntime.async(function getPixelData$(_context) {
     while (1) {
@@ -5151,20 +5150,6 @@ function getPixelData(uri, imageId) {
 
         case 4:
           cache = _context.sent;
-
-          if (!uri) {
-            _context.next = 10;
-            break;
-          }
-
-          _context.next = 8;
-          return regeneratorRuntime.awrap(cache.match(uri));
-
-        case 8:
-          response = _context.sent;
-          console.log(uri, response, response.arrayBuffer(), response.json());
-
-        case 10:
           return _context.abrupt("return", new Promise(function (resolve, reject) {
             var loadPromise = Object(_internal_index_js__WEBPACK_IMPORTED_MODULE_0__["xhrRequest"])(uri, imageId, headers);
             loadPromise.then(function (imageFrameAsArrayBuffer
@@ -5205,11 +5190,16 @@ function getPixelData(uri, imageId) {
                 imageFrame: {
                   pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
                 }
-              }, 'uri', uri, 'imageId', imageId, 'headers', headers, 'imageFrameAsArrayBuffer', imageFrameAsArrayBuffer, _typeof(imageFrameAsArrayBuffer)); // adding the arrayBUffer data to cache
+              }, 'uri', uri, 'imageId', imageId, 'headers', headers, 'imageFrameAsArrayBuffer', imageFrameAsArrayBuffer, _typeof(imageFrameAsArrayBuffer));
+              var options = {
+                headers: {
+                  'Content-Type': 'application/octet-stream'
+                }
+              }; // adding the arrayBUffer data to cache
               // const buffer = new ArrayBuffer(imageFrameAsArrayBuffer)
-              // const jsonRes = new Response(buffer)
-              // cache.put(uri, jsonRes)
-              // return the info for this pixel data
+
+              var jsonRes = new Response(imageFrameAsArrayBuffer, options);
+              cache.put(uri, jsonRes); // return the info for this pixel data
 
               resolve({
                 contentType: findContentType(split),
@@ -5220,7 +5210,7 @@ function getPixelData(uri, imageId) {
             }, reject);
           }));
 
-        case 11:
+        case 6:
         case "end":
           return _context.stop();
       }

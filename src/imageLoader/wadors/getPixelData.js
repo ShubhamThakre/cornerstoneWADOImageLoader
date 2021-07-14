@@ -37,10 +37,10 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
   };
   const cache = await caches.open('my-cache');
 
-  if (uri) {
-    const response = await cache.match(uri);
-    console.log(uri, response, response.arrayBuffer(), response.json());
-  }
+  // if (uri) {
+  //   const response = await cache.match(uri);
+  //   console.log(uri, response, response.arrayBuffer(), response.json());
+  // }
 
   return new Promise((resolve, reject) => {
     const loadPromise = xhrRequest(uri, imageId, headers);
@@ -84,10 +84,16 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
         },
       }, 'uri', uri, 'imageId', imageId, 'headers', headers, 'imageFrameAsArrayBuffer', imageFrameAsArrayBuffer, typeof (imageFrameAsArrayBuffer));
 
+      const options = {
+        headers: {
+          'Content-Type': 'application/octet-stream'
+        }
+      }
+
       // adding the arrayBUffer data to cache
       // const buffer = new ArrayBuffer(imageFrameAsArrayBuffer)
-      // const jsonRes = new Response(buffer)
-      // cache.put(uri, jsonRes)
+      const jsonRes = new Response(imageFrameAsArrayBuffer, options)
+      cache.put(uri, jsonRes)
 
 
 
