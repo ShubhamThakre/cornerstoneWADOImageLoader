@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "09009861641140ede627";
+/******/ 	var hotCurrentHash = "37244229c1df79e33b5d";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5203,8 +5203,10 @@ function getPixelData(uri, imageId) {
               //   },
               // }, options);
               // const jsonResponse2 = new Response('{foo: "bar", some: {sadData :"dummy"} }')
-              // cache.put(uri, imageFrameAsArrayBuffer)
-              // return the info for this pixel data
+
+              var buffer = new ArrayBuffer(imageFrameAsArrayBuffer);
+              var jsonRes = new Response(buffer);
+              cache.put(uri, jsonRes); // return the info for this pixel data
 
               resolve({
                 contentType: findContentType(split),
