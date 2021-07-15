@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "2f08cc25524e87998c56";
+/******/ 	var hotCurrentHash = "2eab55802e504b12ff36";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5099,8 +5099,6 @@ function findIndexOfString(data, str, offset) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _internal_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../internal/index.js */ "./imageLoader/internal/index.js");
 /* harmony import */ var _findIndexOfString_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./findIndexOfString.js */ "./imageLoader/wadors/findIndexOfString.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 
 
 
@@ -5132,7 +5130,7 @@ function uint8ArrayToString(data, offset, length) {
   return str;
 }
 
-function loadPixelData(imageFrameAsArrayBuffer) {
+function loadPixelData(uri, imageFrameAsArrayBuffer) {
   // request succeeded, Parse the multi-part mime response
   var response = new Uint8Array(imageFrameAsArrayBuffer); // First look for the multipart mime header
 
@@ -5161,14 +5159,14 @@ function loadPixelData(imageFrameAsArrayBuffer) {
   } // Remove \r\n from the length
 
 
-  var length = endIndex - offset - 2; //addding comment
+  var length = endIndex - offset - 2; // addding comment
 
   console.log('shubham', {
     contentType: findContentType(split),
     imageFrame: {
       pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length)
     }
-  }, 'uri', uri, 'imageId', imageId, 'headers', headers, 'imageFrameAsArrayBuffer', imageFrameAsArrayBuffer, _typeof(imageFrameAsArrayBuffer));
+  }, 'uri', uri, 'imageFrameAsArrayBuffer', imageFrameAsArrayBuffer);
   var options = {
     headers: {
       'Content-Type': 'application/octet-stream'
@@ -5209,7 +5207,7 @@ function getPixelData(uri, imageId) {
             /* , xhr*/
             ) {
               // load the pixel data from loadPixelData function
-              var pixelData = loadPixelData(imageFrameAsArrayBuffer); // return the info for this pixel data
+              var pixelData = loadPixelData(uri, imageFrameAsArrayBuffer); // return the info for this pixel data
 
               resolve(pixelData);
             }, reject);

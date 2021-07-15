@@ -31,7 +31,7 @@ function uint8ArrayToString(data, offset, length) {
   return str;
 }
 
-function loadPixelData(imageFrameAsArrayBuffer) {
+function loadPixelData(uri, imageFrameAsArrayBuffer) {
   // request succeeded, Parse the multi-part mime response
   const response = new Uint8Array(imageFrameAsArrayBuffer);
 
@@ -62,13 +62,13 @@ function loadPixelData(imageFrameAsArrayBuffer) {
   // Remove \r\n from the length
   const length = endIndex - offset - 2;
 
-  //addding comment
+  // addding comment
   console.log('shubham', {
     contentType: findContentType(split),
     imageFrame: {
       pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length),
     },
-  }, 'uri', uri, 'imageId', imageId, 'headers', headers, 'imageFrameAsArrayBuffer', imageFrameAsArrayBuffer, typeof (imageFrameAsArrayBuffer));
+  }, 'uri', uri, 'imageFrameAsArrayBuffer', imageFrameAsArrayBuffer);
 
   const options = {
     headers: {
@@ -104,7 +104,7 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
 
     loadPromise.then(function (imageFrameAsArrayBuffer /* , xhr*/) {
       // load the pixel data from loadPixelData function
-      const pixelData = loadPixelData(imageFrameAsArrayBuffer)
+      const pixelData = loadPixelData(uri, imageFrameAsArrayBuffer)
 
       // return the info for this pixel data
       resolve(pixelData);
