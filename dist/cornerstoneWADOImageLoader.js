@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "3bce756a9803d230fc8a";
+/******/ 	var hotCurrentHash = "890979ef543d9df6f8cb";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5187,8 +5187,6 @@ function getPixelData(uri, imageId) {
   var mediaType,
       headers,
       cache,
-      cacheData,
-      some,
       _args = arguments;
   return regeneratorRuntime.async(function getPixelData$(_context) {
     while (1) {
@@ -5203,30 +5201,31 @@ function getPixelData(uri, imageId) {
 
         case 4:
           cache = _context.sent;
-          _context.next = 7;
-          return regeneratorRuntime.awrap(cache.match(uri));
-
-        case 7:
-          cacheData = _context.sent;
-
-          if (cacheData) {
-            some = cacheData.arrayBuffer();
-            console.log('cahceData', cacheData, some);
-          }
-
           return _context.abrupt("return", new Promise(function (resolve, reject) {
-            var loadPromise = Object(_internal_index_js__WEBPACK_IMPORTED_MODULE_0__["xhrRequest"])(uri, imageId, headers);
-            loadPromise.then(function (imageFrameAsArrayBuffer
-            /* , xhr*/
-            ) {
-              // load the pixel data from loadPixelData function
-              var pixelData = loadPixelData(uri, imageFrameAsArrayBuffer, cache); // return the info for this pixel data
+            if (cacheData) {
+              console.log('inside if');
+              var imageAsArrayBuffer = cacheData.arrayBuffer();
+              imageAsArrayBuffer.then(function (buffer) {
+                // load the pixel data from loadPixelData function
+                var pixelData = loadPixelData(uri, buffer, cache); // return the info for this pixel data
 
-              resolve(pixelData);
-            }, reject);
+                resolve(pixelData);
+              }, reject);
+            } else {
+              console.log('outside if');
+              var loadPromise = Object(_internal_index_js__WEBPACK_IMPORTED_MODULE_0__["xhrRequest"])(uri, imageId, headers);
+              loadPromise.then(function (imageFrameAsArrayBuffer
+              /* , xhr*/
+              ) {
+                // load the pixel data from loadPixelData function
+                var pixelData = loadPixelData(uri, imageFrameAsArrayBuffer, cache); // return the info for this pixel data
+
+                resolve(pixelData);
+              }, reject);
+            }
           }));
 
-        case 10:
+        case 6:
         case "end":
           return _context.stop();
       }

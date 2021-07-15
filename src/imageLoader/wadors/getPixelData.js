@@ -100,22 +100,31 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
   //         console.log('my response',res.arrayBuffer().then(a => console.log('aa', a, new Uint8Array(a))))
   //       })
   //   })
-  const cacheData = await cache.match(uri)
-  if (cacheData) {
-    const some = cacheData.arrayBuffer();
-    console.log('cahceData', cacheData, some)
-  }
+
 
   return new Promise((resolve, reject) => {
-    const loadPromise = xhrRequest(uri, imageId, headers);
+    if (cacheData) {
+      console.log('inside if');
+      const imageAsArrayBuffer = cacheData.arrayBuffer();
+      imageAsArrayBuffer.then(buffer => {
+        // load the pixel data from loadPixelData function
+        const pixelData = loadPixelData(uri, buffer, cache)
 
-    loadPromise.then(function (imageFrameAsArrayBuffer /* , xhr*/) {
-      // load the pixel data from loadPixelData function
-      const pixelData = loadPixelData(uri, imageFrameAsArrayBuffer, cache)
+        // return the info for this pixel data
+        resolve(pixelData);
+      }, reject);
+    } else {
+      console.log('outside if');
+      const loadPromise = xhrRequest(uri, imageId, headers);
 
-      // return the info for this pixel data
-      resolve(pixelData);
-    }, reject);
+      loadPromise.then(function (imageFrameAsArrayBuffer /* , xhr*/) {
+        // load the pixel data from loadPixelData function
+        const pixelData = loadPixelData(uri, imageFrameAsArrayBuffer, cache)
+
+        // return the info for this pixel data
+        resolve(pixelData);
+      }, reject);
+    }
   });
 }
 
