@@ -76,8 +76,8 @@ function loadPixelData(uri, imageFrameAsArrayBuffer, cache) {
   }
 
   // adding the arrayBUffer data to cache
-  // const jsonRes = new Response(imageFrameAsArrayBuffer, options)
-  // cache.put(uri, jsonRes)
+  const jsonRes = new Response(imageFrameAsArrayBuffer, options)
+  cache.put(uri, jsonRes)
 
   return {
     contentType: findContentType(split),
@@ -105,7 +105,7 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
   console.log(`cacheData`, cacheData)
 
   return new Promise(async (resolve, reject) => {
-    if (cacheData.ok === true) {
+    if (cacheData) {
       console.log('inside if');
       cacheData.arrayBuffer().then(buffer => {
         console.log(buffer)

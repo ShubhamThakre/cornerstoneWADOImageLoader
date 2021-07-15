@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "006cef460f553c901c9a";
+/******/ 	var hotCurrentHash = "239c0efb0ebe1fb02720";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5172,9 +5172,9 @@ function loadPixelData(uri, imageFrameAsArrayBuffer, cache) {
       'Content-Type': 'application/octet-stream'
     }
   }; // adding the arrayBUffer data to cache
-  // const jsonRes = new Response(imageFrameAsArrayBuffer, options)
-  // cache.put(uri, jsonRes)
 
+  var jsonRes = new Response(imageFrameAsArrayBuffer, options);
+  cache.put(uri, jsonRes);
   return {
     contentType: findContentType(split),
     imageFrame: {
@@ -5214,7 +5214,7 @@ function getPixelData(uri, imageId) {
               while (1) {
                 switch (_context.prev = _context.next) {
                   case 0:
-                    if (cacheData.ok === true) {
+                    if (cacheData) {
                       console.log('inside if');
                       cacheData.arrayBuffer().then(function (buffer) {
                         console.log(buffer); // load the pixel data from loadPixelData function
