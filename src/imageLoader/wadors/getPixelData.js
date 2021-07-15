@@ -101,6 +101,7 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
   //       })
   //   })
 
+  const cacheData = cache.match(uri);
 
   return new Promise((resolve, reject) => {
     if (cacheData) {

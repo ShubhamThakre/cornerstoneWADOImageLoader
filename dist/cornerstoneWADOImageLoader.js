@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "890979ef543d9df6f8cb";
+/******/ 	var hotCurrentHash = "fb4a506892c47aabce1d";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5187,6 +5187,7 @@ function getPixelData(uri, imageId) {
   var mediaType,
       headers,
       cache,
+      cacheData,
       _args = arguments;
   return regeneratorRuntime.async(function getPixelData$(_context) {
     while (1) {
@@ -5201,6 +5202,14 @@ function getPixelData(uri, imageId) {
 
         case 4:
           cache = _context.sent;
+          // caches.open('my-cache')
+          //   .then(cache => {
+          //     cache.match('https://api-qa.quantx.cloud/studies/2.16.840.1.113786.1.982.8.706647296.796/series/1.3.12.2.1107.5.2.33.37426.30000015070219112348400000161/instance/1.3.12.2.1107.5.2.33.37426.30000015070219112348400000163/frames/1')
+          //       .then(res =>{
+          //         console.log('my response',res.arrayBuffer().then(a => console.log('aa', a, new Uint8Array(a))))
+          //       })
+          //   })
+          cacheData = cache.match(uri);
           return _context.abrupt("return", new Promise(function (resolve, reject) {
             if (cacheData) {
               console.log('inside if');
@@ -5225,7 +5234,7 @@ function getPixelData(uri, imageId) {
             }
           }));
 
-        case 6:
+        case 7:
         case "end":
           return _context.stop();
       }
