@@ -101,12 +101,13 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
   //       })
   //   })
 
-  const cacheData = cache.match(uri);
+  const cacheData = await cache.match(uri);
+  console.log(`cacheData`, cacheData)
 
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     if (cacheData) {
       console.log('inside if');
-      const imageAsArrayBuffer = cacheData.arrayBuffer();
+      const imageAsArrayBuffer = await cacheData.arrayBuffer();
       imageAsArrayBuffer.then(buffer => {
         // load the pixel data from loadPixelData function
         const pixelData = loadPixelData(uri, buffer, cache)
