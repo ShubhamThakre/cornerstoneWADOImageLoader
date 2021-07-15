@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "2eab55802e504b12ff36";
+/******/ 	var hotCurrentHash = "3f67f3c9401c3bde1859";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5130,7 +5130,7 @@ function uint8ArrayToString(data, offset, length) {
   return str;
 }
 
-function loadPixelData(uri, imageFrameAsArrayBuffer) {
+function loadPixelData(uri, imageFrameAsArrayBuffer, cache) {
   // request succeeded, Parse the multi-part mime response
   var response = new Uint8Array(imageFrameAsArrayBuffer); // First look for the multipart mime header
 
@@ -5207,7 +5207,7 @@ function getPixelData(uri, imageId) {
             /* , xhr*/
             ) {
               // load the pixel data from loadPixelData function
-              var pixelData = loadPixelData(uri, imageFrameAsArrayBuffer); // return the info for this pixel data
+              var pixelData = loadPixelData(uri, imageFrameAsArrayBuffer, cache); // return the info for this pixel data
 
               resolve(pixelData);
             }, reject);

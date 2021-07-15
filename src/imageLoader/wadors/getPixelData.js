@@ -2,7 +2,6 @@ import { xhrRequest } from '../internal/index.js';
 import findIndexOfString from './findIndexOfString.js';
 
 
-
 function findBoundary(header) {
   for (let i = 0; i < header.length; i++) {
     if (header[i].substr(0, 2) === '--') {
@@ -31,7 +30,7 @@ function uint8ArrayToString(data, offset, length) {
   return str;
 }
 
-function loadPixelData(uri, imageFrameAsArrayBuffer) {
+function loadPixelData(uri, imageFrameAsArrayBuffer, cache) {
   // request succeeded, Parse the multi-part mime response
   const response = new Uint8Array(imageFrameAsArrayBuffer);
 
@@ -104,7 +103,7 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
 
     loadPromise.then(function (imageFrameAsArrayBuffer /* , xhr*/) {
       // load the pixel data from loadPixelData function
-      const pixelData = loadPixelData(uri, imageFrameAsArrayBuffer)
+      const pixelData = loadPixelData(uri, imageFrameAsArrayBuffer, cache)
 
       // return the info for this pixel data
       resolve(pixelData);
