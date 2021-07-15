@@ -76,8 +76,8 @@ function loadPixelData(uri, imageFrameAsArrayBuffer, cache) {
   }
 
   // adding the arrayBUffer data to cache
-  const jsonRes = new Response(imageFrameAsArrayBuffer, options)
-  cache.put(uri, jsonRes)
+  // const jsonRes = new Response(imageFrameAsArrayBuffer, options)
+  // cache.put(uri, jsonRes)
 
   return {
     contentType: findContentType(split),
@@ -93,10 +93,18 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
   };
   const cache = await caches.open('my-cache');
 
-  // if (uri) {
-  //   const response = await cache.match(uri);
-  //   console.log(uri, response, response.arrayBuffer(), response.json());
-  // }
+  // caches.open('my-cache')
+  //   .then(cache => {
+  //     cache.match('https://api-qa.quantx.cloud/studies/2.16.840.1.113786.1.982.8.706647296.796/series/1.3.12.2.1107.5.2.33.37426.30000015070219112348400000161/instance/1.3.12.2.1107.5.2.33.37426.30000015070219112348400000163/frames/1')
+  //       .then(res =>{
+  //         console.log('my response',res.arrayBuffer().then(a => console.log('aa', a, new Uint8Array(a))))
+  //       })
+  //   })
+  const cacheData = await cache.match(uri)
+  if (cacheData) {
+    const some = cacheData.arrayBuffer();
+    console.log('cahceData', cacheData, some)
+  }
 
   return new Promise((resolve, reject) => {
     const loadPromise = xhrRequest(uri, imageId, headers);

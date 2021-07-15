@@ -74,7 +74,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "3f67f3c9401c3bde1859";
+/******/ 	var hotCurrentHash = "3bce756a9803d230fc8a";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -5172,9 +5172,9 @@ function loadPixelData(uri, imageFrameAsArrayBuffer, cache) {
       'Content-Type': 'application/octet-stream'
     }
   }; // adding the arrayBUffer data to cache
+  // const jsonRes = new Response(imageFrameAsArrayBuffer, options)
+  // cache.put(uri, jsonRes)
 
-  var jsonRes = new Response(imageFrameAsArrayBuffer, options);
-  cache.put(uri, jsonRes);
   return {
     contentType: findContentType(split),
     imageFrame: {
@@ -5187,6 +5187,8 @@ function getPixelData(uri, imageId) {
   var mediaType,
       headers,
       cache,
+      cacheData,
+      some,
       _args = arguments;
   return regeneratorRuntime.async(function getPixelData$(_context) {
     while (1) {
@@ -5201,6 +5203,17 @@ function getPixelData(uri, imageId) {
 
         case 4:
           cache = _context.sent;
+          _context.next = 7;
+          return regeneratorRuntime.awrap(cache.match(uri));
+
+        case 7:
+          cacheData = _context.sent;
+
+          if (cacheData) {
+            some = cacheData.arrayBuffer();
+            console.log('cahceData', cacheData, some);
+          }
+
           return _context.abrupt("return", new Promise(function (resolve, reject) {
             var loadPromise = Object(_internal_index_js__WEBPACK_IMPORTED_MODULE_0__["xhrRequest"])(uri, imageId, headers);
             loadPromise.then(function (imageFrameAsArrayBuffer
@@ -5213,7 +5226,7 @@ function getPixelData(uri, imageId) {
             }, reject);
           }));
 
-        case 6:
+        case 10:
         case "end":
           return _context.stop();
       }
