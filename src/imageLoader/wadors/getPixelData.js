@@ -1,6 +1,5 @@
-import { xhrRequest } from '../internal/index.js';
 import findIndexOfString from './findIndexOfString.js';
-
+import { xhrRequest } from '../internal/index.js';
 
 function findBoundary(header) {
   for (let i = 0; i < header.length; i++) {
@@ -30,7 +29,7 @@ function uint8ArrayToString(data, offset, length) {
   return str;
 }
 
-function loadPixelData(uri, imageFrameAsArrayBuffer, cache) {
+function loadPixelData (uri, imageFrameAsArrayBuffer, cache) {
   // request succeeded, Parse the multi-part mime response
   const response = new Uint8Array(imageFrameAsArrayBuffer);
 
@@ -64,12 +63,12 @@ function loadPixelData(uri, imageFrameAsArrayBuffer, cache) {
   const options = {
     headers: {
       'Content-Type': 'application/octet-stream'
-    }
-  }
+    },
+  };
 
   // adding the arrayBUffer data to cache
-  const jsonRes = new Response(imageFrameAsArrayBuffer, options)
-  cache.put(uri, jsonRes)
+  const jsonRes = new Response(imageFrameAsArrayBuffer, options);
+  cache.put(uri, jsonRes);
 
   return {
     contentType: findContentType(split),
@@ -77,9 +76,9 @@ function loadPixelData(uri, imageFrameAsArrayBuffer, cache) {
       pixelData: new Uint8Array(imageFrameAsArrayBuffer, offset, length),
     },
   }
-}
+};
 
-async function getPixelData(uri, imageId, mediaType = 'application/octet-stream') {
+async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'){
   const headers = {
     accept: mediaType,
   };
@@ -87,22 +86,22 @@ async function getPixelData(uri, imageId, mediaType = 'application/octet-stream'
 
   const cacheData = await cache.match(uri);
 
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     if (cacheData) {
       cacheData.arrayBuffer().then(buffer => {
-        
+
         // load the pixel data from loadPixelData function
-        const pixelData = loadPixelData(uri, buffer, cache)
-        
+        const pixelData = loadPixelData(uri, buffer, cache);
+
         // return the info for this pixel data
         resolve(pixelData);
       }, reject);
     } else {
       const loadPromise = xhrRequest(uri, imageId, headers);
 
-      loadPromise.then(function (imageFrameAsArrayBuffer /* , xhr*/) {
+      loadPromise.then(function (imageFrameAsArrayBuffer /* , xhr*/){
         // load the pixel data from loadPixelData function
-        const pixelData = loadPixelData(uri, imageFrameAsArrayBuffer, cache)
+        const pixelData = loadPixelData(uri, imageFrameAsArrayBuffer, cache);
 
         // return the info for this pixel data
         resolve(pixelData);
